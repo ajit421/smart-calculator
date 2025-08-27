@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Calculator - AI Powered</title>
+    <link rel="stylesheet" href="style.css" /> 
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Smart Calculator</h1>
+        <p>AI-Powered Handwriting Recognition Calculator</p>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="main-content">
+        <div class="toolbar">
+          <div class="color-palette">
+            <button class="color-btn black active" data-color="#2c3e50" ></button>
+            <button class="color-btn red" data-color="#e74c3c"></button>
+            <button class="color-btn pink" data-color="#e91e63"></button>
+            <button class="color-btn purple" data-color="#9b59b6"></button>
+            <button class="color-btn brown" data-color="#8d4e25"></button>
+            <button class="color-btn blue" data-color="#3498db"></button>
+            <button class="color-btn teal" data-color="#1abc9c"></button>
+            <button class="color-btn green" data-color="#27ae60"></button>
+            <button class="color-btn lime" data-color="#8bc34a"></button>
+            <button class="color-btn yellow" data-color="#f1c40f"></button>
+            <button class="color-btn orange" data-color="#f39c12"></button>
+            <button class="eraser-btn" id="eraserBtn" title="Eraser">🧹</button>
+          </div>
+
+          <!-- Stroke Control -->
+          <div class="stroke-control">
+            <label>Stroke Width:</label>
+            <input type="range" class="stroke-slider" id="strokeWidth" min="1" max="15" value="3" />
+            <div class="stroke-display" id="strokeDisplay">3px</div>
+          </div>
+        </div>
+
+          <!-- Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-undo" id="undoBtn" disabled> <span>↶</span> Undo </button>
+          <button class="btn btn-redo" id="redoBtn" disabled> <span>↷</span> Redo </button>
+          <button class="btn btn-erase" id="eraseToggleBtn"> 🧹 Toggle Erase </button>
+          <button class="btn btn-clear" id="clearBtn">Clear Canvas</button>
+          <button class="btn btn-calculate" id="calculateBtn">Calculate</button>
+          <button class="btn btn-save" id="saveBtn">Save</button>
+          <button class="btn btn-reset" id="resetBtn">Reset</button>
+        </div>
+
+        <!-- Canvas Section -->
+        <div class="canvas-section">
+          <div class="canvas-container">
+            <canvas id="drawingCanvas"></canvas>
+          </div>
+
+          <!-- Results Panel -->
+          <div class="results-panel">
+            <div class="results-header">
+              <h3>Solution</h3>
+              <div class="status-dot" id="statusDot"></div>
+            </div>
+
+            <!-- Result Content -->
+            <div class="result-content" id="resultContent">
+              <div class="placeholder-text">
+                <p>Draw your mathematical expression on the canvas</p>
+                <p>Then click <strong>Calculate</strong> to get AI-powered solutions!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>
+          This is a Smart Calculator App built with a modern tech stack and an
+          easy-to-use design for a smooth and effortless calculation experience,
+          perfect for daily and academic use.
+        </p>
+
+        <!-- Developer Info -->
+        <p>
+          Developed by
+          <span class="developer-name"><a href="https://github.com/ajit421">Ajit Kumar</a></span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script> <!-- api key -->
+    <script src="main.js"></script> <!-- main script -->
+
+  </body>
+</html>
