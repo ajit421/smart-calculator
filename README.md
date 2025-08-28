@@ -2,7 +2,7 @@
 
 A sophisticated web-based calculator that uses handwriting recognition powered by Google's Gemini AI to solve mathematical expressions.
 
-![Smart Calculator Demo](demo.gif)
+![alt text](image.png)
 
 ## Features
 
@@ -24,7 +24,7 @@ A sophisticated web-based calculator that uses handwriting recognition powered b
 
 ## Live Demo
 
-Try it out: [Smart Calculator Demo](https://your-demo-url-here.com)
+Try it out: [Smart Calculator Demo](https://ajit421.github.io/smart-calculator)
 
 
 ## Usage Guide
@@ -64,6 +64,7 @@ Try it out: [Smart Calculator Demo](https://your-demo-url-here.com)
 ### Browser Support
 - Chrome (recommended)
 - Firefox
+- Brave
 - Safari
 - Edge
 - Opera

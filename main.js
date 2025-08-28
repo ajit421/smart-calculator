@@ -61,10 +61,7 @@ class SmartCalculator {
 
   setupEventListeners() {
     // Mouse events
-    this.canvas.addEventListener(
-      "mousedown",
-      this.startDrawing.bind(this)
-    );
+    this.canvas.addEventListener("mousedown", this.startDrawing.bind(this));
     this.canvas.addEventListener("mousemove", this.draw.bind(this));
     this.canvas.addEventListener("mouseup", this.stopDrawing.bind(this));
     this.canvas.addEventListener("mouseout", this.stopDrawing.bind(this));
@@ -75,16 +72,11 @@ class SmartCalculator {
       this.handleTouchStart.bind(this),
       { passive: false }
     );
-    this.canvas.addEventListener(
-      "touchmove",
-      this.handleTouchMove.bind(this),
-      { passive: false }
-    );
+    this.canvas.addEventListener("touchmove", this.handleTouchMove.bind(this), {
+      passive: false,
+    });
     this.canvas.addEventListener("touchend", this.stopDrawing.bind(this));
-    this.canvas.addEventListener(
-      "touchcancel",
-      this.stopDrawing.bind(this)
-    );
+    this.canvas.addEventListener("touchcancel", this.stopDrawing.bind(this));
 
     // Button events
     document
@@ -501,8 +493,13 @@ class SmartCalculator {
           {
             parts: [
               {
-                text: "Please analyze this handwritten mathematical expression and solve it. If there are multiple expressions, solve them all. Provide only the final answer in a clear format.",
+                text: `You are given a handwritten mathematical expression as an image.
+                1. First, transcribe the handwritten expression into clear mathematical notation.
+                2. Then solve it step by step, showing only the essential calculations.
+                3. Finally, provide the final numeric answer in a separate line prefixed with "Final Answer:".
+                Do not add explanations, context, or commentary. Only output math steps and the final result.`,
               },
+
               {
                 inline_data: {
                   mime_type: "image/png",
