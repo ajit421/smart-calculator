@@ -493,11 +493,16 @@ class SmartCalculator {
           {
             parts: [
               {
-                text: `You are given a handwritten mathematical expression as an image.
-                1. First, transcribe the handwritten expression into clear mathematical notation.
-                2. Then solve it step by step, showing only the essential calculations.
-                3. Finally, provide the final numeric answer in a separate line prefixed with "Final Answer:".
-                Do not add explanations, context, or commentary. Only output math steps and the final result.`,
+                text: `You are a math tutor.
+                1. Transcribe the handwritten expression accurately.
+                2. Solve it step-by-step.
+                3. Use LaTeX formatting for all math equations (enclose in $$ for display mode or $ for inline).
+                4. Do NOT use bold (**text**) inside LaTeX equations.
+                5. Format the output clearly like this:
+                "Expression: $$ [latex code] $$
+                Step 1: $$ [latex code] $$
+                Step 2: $$ [latex code] $$
+                Final Answer: $$ [latex code] $$"`,
               },
 
               {
