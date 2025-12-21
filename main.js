@@ -7,7 +7,7 @@ class SmartCalculator {
     this.currentStroke = 3;
     this.isEraserMode = false;
 
-    // Use API key from config
+    // Use API key from config.js
     this.apiKey = window.GEMINI_API_KEY;
 
     // History for undo/redo functionality
@@ -479,7 +479,7 @@ class SmartCalculator {
       // Check if API key is set
       if (!this.apiKey) {
         throw new Error(
-          "API key not configured. Please set your Gemini API key in config.js."
+          "API key not configured. Please set your Gemini API key in config.js"
         );
       }
 
@@ -493,8 +493,7 @@ class SmartCalculator {
           {
             parts: [
               {
-                text: 
-                `You are given a handwritten mathematical expression as an image.
+                text: `You are given a handwritten mathematical expression as an image.
                 1. First, transcribe the handwritten expression into clear mathematical notation.
                 2. Then solve it step by step, showing only the essential calculations.
                 3. Finally, provide the final numeric answer in a separate line prefixed with "Final Answer:".
@@ -520,7 +519,7 @@ class SmartCalculator {
 
       // Make API call
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
         {
           method: "POST",
           headers: {
