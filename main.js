@@ -493,7 +493,8 @@ class SmartCalculator {
           {
             parts: [
               {
-                text: `You are given a handwritten mathematical expression as an image.
+                text: 
+                `You are given a handwritten mathematical expression as an image.
                 1. First, transcribe the handwritten expression into clear mathematical notation.
                 2. Then solve it step by step, showing only the essential calculations.
                 3. Finally, provide the final numeric answer in a separate line prefixed with "Final Answer:".
