@@ -2,7 +2,8 @@
 
 A sophisticated web-based calculator that uses handwriting recognition powered by Google's Gemini AI to solve mathematical expressions.
 
-![alt text](image.png)
+<img width="1638" height="1252" alt="image" src="https://github.com/user-attachments/assets/d77671e7-d90c-4359-bab3-5576d327eb08" />
+
 
 ## Features
 
