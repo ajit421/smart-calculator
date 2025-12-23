@@ -26,7 +26,7 @@ jobs:
 
       - name: Inject API Key
         # This step creates the config.js file using the secret key
-        run: echo 'window.GEMINI_API_KEY = "${{ secrets.GEMINI_API_KEY }}";' > config.js
+        run: echo 'window.GEMINI_API_KEY = "${{ secrets.GEMINI_API_KEY }}";' > smart-calculator/config.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
