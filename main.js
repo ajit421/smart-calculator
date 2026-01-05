@@ -458,6 +458,11 @@ class SmartCalculator {
         </div>
       `;
       statusDot.className = "status-dot active";
+      
+      // Trigger mathjax to render the new content
+      if(window.MathJax){
+        window.MathJax.typesetPromise([resultContent]).catch((err) => console.error(err));
+      }
     }
 
     calculateBtn.disabled = false;
@@ -496,13 +501,13 @@ class SmartCalculator {
                 text: `You are a math tutor.
                 1. Transcribe the handwritten expression accurately.
                 2. Solve it step-by-step.
-                3. Use LaTeX formatting for all math equations.
+                3. Use LaTeX formatting enclosed in double dollar signs ($$ ... $$) for all math expressions.
                 4. Do NOT use bold (**text**) inside LaTeX equations.
                 5. Format the output clearly like this:
-                "Expression: [latex code]
-                Step 1: [latex code]
-                Step 2: [latex code]
-                Final Answer: [latex code]"`,
+                "Expression: $$ [latex code] $$
+                Step 1: $$ [latex code] $$
+                Step 2: $$ [latex code] $$
+                Final Answer: $$ [latex code] $$"`,
               },
 
               {
