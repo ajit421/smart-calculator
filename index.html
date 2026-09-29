@@ -4,140 +4,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#4f46e5" />
-  <title>Smart Calculator - AI Powered</title>
+  <meta name="description" content="Write a math problem by hand and get a clear, step-by-step solution." />
+  <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#14130f" media="(prefers-color-scheme: dark)" />
+  <title>Smart Calculator — Handwritten math, solved</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=__BUILD__" />
   <script>
     window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      chtml: { scale: 1.05 }
     };
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
-  <div class="bg-glow" aria-hidden="true"></div>
-
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c3-1 4-4 5-7s2-6 5-7"/><path d="M14 13l6 6M20 13l-6 6"/></svg>
-      </div>
-      <div class="brand-text">
-        <h1>Smart Calculator</h1>
-        <p>Handwrite any math &mdash; AI solves it step by step</p>
-      </div>
-    </div>
-    <div class="topbar-right">
-      <span class="badge"><span class="badge-dot"></span>Gemini 3.8 Flash</span>
-      <a class="icon-link" href="https://github.com/ajit421/smart-calculator" target="_blank" rel="noopener" title="View on GitHub" aria-label="View on GitHub">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
-      </a>
-    </div>
+  <!-- Masthead -->
+  <header class="masthead">
+    <a class="wordmark" href="./" aria-label="Smart Calculator home">
+      <span class="wordmark-glyph" aria-hidden="true">∫</span>
+      <span class="wordmark-name">Smart Calculator</span>
+    </a>
+    <nav class="masthead-nav">
+      <a href="#how">How it works</a>
+      <a href="https://github.com/ajit421/smart-calculator" target="_blank" rel="noopener">GitHub</a>
+    </nav>
   </header>
 
-  <main class="layout">
-    <!-- Workspace -->
-    <section class="card workspace" aria-label="Drawing workspace">
+  <!-- Intro -->
+  <section class="intro">
+    <p class="eyebrow">Nº 01 &nbsp;/&nbsp; Handwritten math</p>
+    <h1>Write it down.<br /><em>We&rsquo;ll work it out.</em></h1>
+    <p class="lede">
+      Sketch an equation the way you would on paper. Smart Calculator reads your
+      handwriting and returns the full working, one line at a time.
+    </p>
+  </section>
+
+  <main class="desk">
+    <!-- Sheet -->
+    <section class="sheet" aria-label="Writing sheet">
       <div class="toolbar">
-        <div class="tool-group color-palette" role="group" aria-label="Pen color">
-          <button class="color-btn black active" data-color="#2c3e50" title="Ink"></button>
-          <button class="color-btn red" data-color="#e74c3c" title="Red"></button>
-          <button class="color-btn pink" data-color="#e91e63" title="Pink"></button>
-          <button class="color-btn purple" data-color="#9b59b6" title="Purple"></button>
-          <button class="color-btn brown" data-color="#8d4e25" title="Brown"></button>
-          <button class="color-btn blue" data-color="#3498db" title="Blue"></button>
-          <button class="color-btn teal" data-color="#1abc9c" title="Teal"></button>
-          <button class="color-btn green" data-color="#27ae60" title="Green"></button>
-          <button class="color-btn lime" data-color="#8bc34a" title="Lime"></button>
-          <button class="color-btn yellow" data-color="#f1c40f" title="Yellow"></button>
-          <button class="color-btn orange" data-color="#f39c12" title="Orange"></button>
-        </div>
-
-        <span class="divider" aria-hidden="true"></span>
-
-        <div class="tool-group">
-          <button class="eraser-btn" id="eraserBtn" title="Eraser (E)" aria-label="Eraser">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H9L4 15a2 2 0 0 1 0-2.8L13.2 3a2 2 0 0 1 2.8 0L21 8a2 2 0 0 1 0 2.8L12 20"/><path d="M8.5 9.5l6 6"/></svg>
-          </button>
+        <div class="tool-row">
+          <div class="color-palette" role="group" aria-label="Ink color">
+            <button class="color-btn black active" data-color="#2c3e50" title="Ink" aria-label="Ink"></button>
+            <button class="color-btn red" data-color="#e74c3c" title="Red" aria-label="Red"></button>
+            <button class="color-btn pink" data-color="#e91e63" title="Pink" aria-label="Pink"></button>
+            <button class="color-btn purple" data-color="#9b59b6" title="Purple" aria-label="Purple"></button>
+            <button class="color-btn brown" data-color="#8d4e25" title="Brown" aria-label="Brown"></button>
+            <button class="color-btn blue" data-color="#3498db" title="Blue" aria-label="Blue"></button>
+            <button class="color-btn teal" data-color="#1abc9c" title="Teal" aria-label="Teal"></button>
+            <button class="color-btn green" data-color="#27ae60" title="Green" aria-label="Green"></button>
+            <button class="color-btn lime" data-color="#8bc34a" title="Lime" aria-label="Lime"></button>
+            <button class="color-btn yellow" data-color="#f1c40f" title="Yellow" aria-label="Yellow"></button>
+            <button class="color-btn orange" data-color="#f39c12" title="Orange" aria-label="Orange"></button>
+          </div>
 
           <div class="stroke-control">
-            <label for="strokeWidth">Size</label>
+            <button class="eraser-btn" id="eraserBtn" title="Eraser (E)" aria-label="Eraser">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H9L4 15a2 2 0 0 1 0-2.8L13.2 3a2 2 0 0 1 2.8 0L21 8a2 2 0 0 1 0 2.8L12 20"/><path d="M8.5 9.5l6 6"/></svg>
+            </button>
+            <label for="strokeWidth">Nib</label>
             <input type="range" class="stroke-slider" id="strokeWidth" min="1" max="15" value="3" />
-            <div class="stroke-display" id="strokeDisplay">3px</div>
+            <output class="stroke-display" id="strokeDisplay">3px</output>
           </div>
         </div>
 
-        <div class="tool-group action-buttons">
+        <div class="action-buttons">
           <button class="btn btn-icon" id="undoBtn" disabled title="Undo (Ctrl+Z)" aria-label="Undo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
           </button>
           <button class="btn btn-icon" id="redoBtn" disabled title="Redo (Ctrl+Y)" aria-label="Redo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
           </button>
-          <button class="btn btn-ghost btn-erase" id="eraseToggleBtn" title="Toggle eraser (E)">
+          <span class="sep" aria-hidden="true"></span>
+          <button class="btn btn-erase" id="eraseToggleBtn" title="Toggle eraser (E)">
             <span class="mode-draw">Eraser</span><span class="mode-erase">Pen</span>
           </button>
-          <button class="btn btn-ghost" id="clearBtn" title="Clear canvas (Delete)">Clear</button>
-          <button class="btn btn-ghost" id="saveBtn" title="Download as PNG">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-            Save
-          </button>
-          <button class="btn btn-ghost btn-danger" id="resetBtn" title="Reset everything">Reset</button>
+          <button class="btn" id="clearBtn" title="Clear sheet (Delete)">Clear</button>
+          <button class="btn" id="saveBtn" title="Download as PNG">Save</button>
+          <button class="btn btn-danger" id="resetBtn" title="Reset everything">Reset</button>
         </div>
       </div>
 
       <div class="canvas-container">
         <canvas id="drawingCanvas"></canvas>
+        <!-- Visual only: grid and margin sit above the canvas and are never sent to the AI -->
+        <div class="paper-overlay" aria-hidden="true"></div>
+        <span class="sheet-tag" aria-hidden="true">Sheet 01</span>
       </div>
 
       <div class="shortcuts">
-        <span><kbd>Ctrl</kbd><kbd>Z</kbd> Undo</span>
-        <span><kbd>Ctrl</kbd><kbd>Y</kbd> Redo</span>
-        <span><kbd>E</kbd> Eraser</span>
-        <span><kbd>Del</kbd> Clear</span>
+        <span><kbd>Ctrl Z</kbd> undo</span>
+        <span><kbd>Ctrl Y</kbd> redo</span>
+        <span><kbd>E</kbd> eraser</span>
+        <span><kbd>Del</kbd> clear</span>
+        <span><kbd>Enter</kbd> solve</span>
       </div>
     </section>
 
-    <!-- Results Panel -->
-    <aside class="card results-panel" aria-label="Solution">
+    <!-- Working -->
+    <aside class="working results-panel" aria-label="Solution">
       <div class="results-header">
-        <h3>Solution</h3>
+        <h2>Working</h2>
         <div class="status">
-          <div class="status-dot" id="statusDot"></div>
+          <span class="status-dot" id="statusDot"></span>
           <span class="status-label"></span>
         </div>
       </div>
 
       <div class="result-content" id="resultContent" aria-live="polite">
         <div class="placeholder-text">
-          <p>Draw your mathematical expression on the canvas</p>
-          <p>Then click <strong>Calculate</strong> to get AI-powered solutions!</p>
+          <p class="placeholder-eq">x<sup>2</sup> &minus; 5x + 6 = 0</p>
+          <p>Your step-by-step working will appear here.</p>
         </div>
       </div>
 
-      <button class="btn btn-calculate" id="calculateBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/><path d="M19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8z"/></svg>
-        Calculate
+      <button class="btn-solve" id="calculateBtn">
+        <span>Solve</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
       </button>
     </aside>
   </main>
 
+  <!-- How it works -->
+  <section class="how" id="how">
+    <h2 class="section-title">How it works</h2>
+    <ol class="steps">
+      <li>
+        <span class="step-num">i.</span>
+        <h3>Write</h3>
+        <p>Use a mouse, finger or stylus. Arithmetic, algebra, fractions, integrals &mdash; write it as you normally would.</p>
+      </li>
+      <li>
+        <span class="step-num">ii.</span>
+        <h3>Solve</h3>
+        <p>Your sheet is read by Google Gemini, which transcribes the expression and works through it.</p>
+      </li>
+      <li>
+        <span class="step-num">iii.</span>
+        <h3>Follow along</h3>
+        <p>Every step is typeset properly, so you can see how the answer was reached &mdash; not just what it is.</p>
+      </li>
+    </ol>
+  </section>
+
   <!-- Footer -->
   <footer class="footer">
-    <p>
+    <p class="footer-about">
       This is a Smart Calculator App built with a modern tech stack and an
       easy-to-use design for a smooth and effortless calculation experience,
       perfect for daily and academic use.
     </p>
-    <p>
-      Developed by
-      <span class="developer-name"><a href="https://github.com/ajit421">Ajit Kumar</a></span>
-    </p>
+    <div class="footer-meta">
+      <span>Developed by <span class="developer-name"><a href="https://github.com/ajit421">Ajit Kumar</a></span></span>
+      <span>Solutions by Google Gemini</span>
+    </div>
   </footer>
 
   <!-- Scripts -->

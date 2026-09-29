@@ -7,6 +7,10 @@ class SmartCalculator {
     this.currentStroke = 3;
     this.isEraserMode = false;
 
+    // Canvas background. Must match --paper in style.css; used for clear,
+    // undo/redo, the eraser and the empty check.
+    this.paperColor = "#fffdf8";
+
     // Use API key from config.js
     this.apiKey = window.GEMINI_API_KEY;
 
@@ -114,6 +118,11 @@ class SmartCalculator {
           e.preventDefault();
           this.redo();
         }
+      } else if (e.key === "Enter") {
+        // Let Enter on a focused button activate that button instead
+        if (e.target instanceof Element && e.target.closest("button")) return;
+        e.preventDefault();
+        if (!document.getElementById("calculateBtn").disabled) this.calculate();
       } else if (e.key === "e" || e.key === "E") {
         e.preventDefault();
         this.toggleEraser();
@@ -232,7 +241,7 @@ class SmartCalculator {
     const img = new Image();
     img.onload = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.fillStyle = "#fafafa";
+      this.ctx.fillStyle = this.paperColor;
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.drawImage(img, 0, 0);
       this.updateUndoRedoButtons();
@@ -297,7 +306,7 @@ class SmartCalculator {
     // and its composite mode leaked into clear/undo, wiping the whole canvas.
     this.ctx.globalCompositeOperation = "source-over";
     if (this.isEraserMode) {
-      this.ctx.strokeStyle = "#fafafa";
+      this.ctx.strokeStyle = this.paperColor;
       this.ctx.lineWidth = this.currentStroke * 2;
     } else {
       this.ctx.strokeStyle = this.currentColor;
@@ -340,7 +349,7 @@ class SmartCalculator {
   // Clear canvas
   clearCanvas(saveState = true) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.fillStyle = "#fafafa";
+    this.ctx.fillStyle = this.paperColor;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.showPlaceholder();
 
@@ -388,13 +397,74 @@ class SmartCalculator {
       this.canvas.width,
       this.canvas.height
     );
-    const pixelBuffer = new Uint32Array(imageData.data.buffer);
+    const data = imageData.data;
+    const hex = parseInt(this.paperColor.slice(1), 16);
+    const r = (hex >> 16) & 255, g = (hex >> 8) & 255, b = hex & 255;
+    const tolerance = 8;
 
-    // Check if all pixels are the background color (within a small threshold)
-    return pixelBuffer.every((pixel) => {
-      // Compare with background color (#fafafa ≈ 0xFFFAFAFA in ARGB)
-      return Math.abs(pixel - 0xfffafafa) < 0x000f0f0f;
-    });
+    // Empty = every pixel is the paper color (within a small threshold)
+    for (let i = 0; i < data.length; i += 4) {
+      if (
+        Math.abs(data[i] - r) > tolerance ||
+        Math.abs(data[i + 1] - g) > tolerance ||
+        Math.abs(data[i + 2] - b) > tolerance ||
+        data[i + 3] < 250
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // Turn the model's "Expression: / Step N: / Final Answer:" text into lines
+  formatSolution(content) {
+    const text = content
+      .trim()
+      .replace(/^"([\s\S]*)"$/, "$1") // the prompt's example is wrapped in quotes
+      .replace(/\$\$([\s\S]*?)\$\$/g, (m) => m.replace(/\n/g, " ")); // keep $$…$$ on one line
+
+    const labelRe =
+      /^[#>*\-\s]*(?:\*\*)?\s*(Expression|Step\s*\d+|Final\s+Answer|Answer)\s*(?:\*\*)?\s*:\s*(?:\*\*)?\s*(.*)$/i;
+    const inline = (s) =>
+      this.escapeHtml(s).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    const items = [];
+    for (const raw of text.split("\n")) {
+      const line = raw.trim();
+      if (!line) continue;
+      const m = line.match(labelRe);
+      if (m) {
+        const label = m[1].replace(/\s+/g, " ");
+        items.push({ label, body: [m[2]], final: /answer/i.test(label) });
+      } else if (items.length && items[items.length - 1].label) {
+        items[items.length - 1].body.push(line);
+      } else {
+        items.push({ label: null, body: [line], final: false });
+      }
+    }
+
+    const lines = items
+      .map((item) => {
+        const body = item.body.filter(Boolean).map(inline).join("<br>");
+        if (!item.label) {
+          return `<li class="line line-note"><div class="line-body">${body}</div></li>`;
+        }
+        return `
+          <li class="line${item.final ? " final" : ""}">
+            <span class="line-label">${this.escapeHtml(item.label)}</span>
+            <div class="line-body">${body}</div>
+          </li>`;
+      })
+      .join("");
+
+    return `<ol class="working-lines">${lines}</ol>`;
   }
 
   // Show placeholder content
@@ -404,8 +474,8 @@ class SmartCalculator {
 
     resultContent.innerHTML = `
       <div class="placeholder-text">
-        <p>Draw your mathematical expression on the canvas</p>
-        <p>Then click <strong>Calculate</strong> to get AI-powered solutions!</p>
+        <p class="placeholder-eq">x<sup>2</sup> &minus; 5x + 6 = 0</p>
+        <p>Your step-by-step working will appear here.</p>
       </div>
     `;
     statusDot.className = "status-dot";
@@ -420,7 +490,7 @@ class SmartCalculator {
     resultContent.innerHTML = `
       <div class="loading-animation" style="display: flex;">
         <div class="spinner"></div>
-        <p>Reading your handwriting and solving&hellip;</p>
+        <p>Reading your sheet&hellip;</p>
       </div>
     `;
     statusDot.className = "status-dot processing";
@@ -434,22 +504,11 @@ class SmartCalculator {
     const calculateBtn = document.getElementById("calculateBtn");
 
     if (isError) {
-      resultContent.innerHTML = `<div class="error-message">${content}</div>`;
+      resultContent.innerHTML = `<div class="error-message">${this.escapeHtml(content)}</div>`;
       statusDot.className = "status-dot error-message";
     } else {
-      // Simple sanitization and formatting
-      const formattedContent = content
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\n\n/g, "</p><p>")
-        .replace(/\n/g, "<br>");
-
       resultContent.innerHTML = `
-        <div class="solution-text">
-          <h4>Solution:</h4>
-          <div class="step">${formattedContent}</div>
-        </div>
+        <div class="solution-text">${this.formatSolution(content)}</div>
       `;
       statusDot.className = "status-dot active";
       
@@ -466,7 +525,7 @@ class SmartCalculator {
   async calculate() {
     if (this.isCanvasEmpty()) {
       this.showResult(
-        "📝 Please draw a mathematical expression on the canvas first!",
+        "The sheet is empty. Write an expression first, then press Solve.",
         true
       );
       return;
