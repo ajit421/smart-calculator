@@ -183,15 +183,7 @@ class SmartCalculator {
   // Update erase button
   updateEraseButton() {
     const eraseToggleBtn = document.getElementById("eraseToggleBtn");
-    if (this.isEraserMode) {
-      eraseToggleBtn.textContent = "🖊️ Draw Mode";
-      eraseToggleBtn.style.background =
-        "linear-gradient(135deg, #74b9ff, #0984e3)";
-    } else {
-      eraseToggleBtn.textContent = "🧹 Toggle Erase";
-      eraseToggleBtn.style.background =
-        "linear-gradient(135deg, #a29bfe, #6c5ce7)";
-    }
+    eraseToggleBtn.classList.toggle("is-active", this.isEraserMode);
   }
 
   // Save canvas state
@@ -426,7 +418,7 @@ class SmartCalculator {
     resultContent.innerHTML = `
       <div class="loading-animation" style="display: flex;">
         <div class="spinner"></div>
-        <p>🤖 AI is analyzing your handwritten expression...</p>
+        <p>Reading your handwriting and solving&hellip;</p>
       </div>
     `;
     statusDot.className = "status-dot processing";
@@ -587,20 +579,4 @@ class SmartCalculator {
 // Initialize the Smart Calculator when the page loads
 document.addEventListener("DOMContentLoaded", () => {
   new SmartCalculator();
-
-  // Add some interactive animations
-  const buttons = document.querySelectorAll(".btn");
-  buttons.forEach((btn) => {
-    btn.addEventListener("mouseenter", () => {
-      if (!btn.disabled) {
-        btn.style.transform = "translateY(-3px) scale(1.02)";
-      }
-    });
-
-    btn.addEventListener("mouseleave", () => {
-      if (!btn.disabled) {
-        btn.style.transform = "translateY(0) scale(1)";
-      }
-    });
-  });
 });
