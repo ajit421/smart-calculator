@@ -28,6 +28,10 @@ jobs:
         # This step creates the config.js file using the secret key
         run: echo 'window.GEMINI_API_KEY = "${{ secrets.GEMINI_API_KEY }}";' > config.js
 
+      - name: Cache-bust assets
+        # Give CSS/JS a new URL on every deploy so browsers don't reuse stale cached copies
+        run: sed -i "s/__BUILD__/${GITHUB_SHA::7}/g" index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

@@ -292,12 +292,14 @@ class SmartCalculator {
 
     const coords = this.getCoordinates(e);
 
+    // Erase by painting the background color. "destination-out" would leave
+    // transparent pixels (breaking isCanvasEmpty and the PNG sent to Gemini)
+    // and its composite mode leaked into clear/undo, wiping the whole canvas.
+    this.ctx.globalCompositeOperation = "source-over";
     if (this.isEraserMode) {
-      this.ctx.globalCompositeOperation = "destination-out";
-      this.ctx.strokeStyle = "rgba(0,0,0,1)"; // Eraser needs a color to work
+      this.ctx.strokeStyle = "#fafafa";
       this.ctx.lineWidth = this.currentStroke * 2;
     } else {
-      this.ctx.globalCompositeOperation = "source-over";
       this.ctx.strokeStyle = this.currentColor;
       this.ctx.lineWidth = this.currentStroke;
     }
@@ -521,7 +523,7 @@ class SmartCalculator {
 
       // Make API call
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${this.apiKey}`,
         {
           method: "POST",
           headers: {
@@ -537,6 +539,8 @@ class SmartCalculator {
 
         if (response.status === 400) {
           errorMessage += "Bad request - please check your input.";
+        } else if (response.status === 402) {
+          errorMessage += "The Gemini API project is out of credits - billing needs to be topped up.";
         } else if (response.status === 403) {
           errorMessage += "Access denied - please check your API key.";
         } else if (response.status === 429) {
